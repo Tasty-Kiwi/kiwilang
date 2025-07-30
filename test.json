@@ -1,0 +1,18 @@
+[
+  ["print", "Hello, World!"],
+  ["defn", ":x", 2],
+  ["print", ":x"],
+  ["defn", ":my_list", ["list", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
+  ["print", ":my_list"],
+
+  ["defn", ":y", 2],
+  ["if", ["=", ":y", 2], 
+    ["print", "y is 2"],
+    ["print", "y is not 2"]
+  ],
+
+  ["print", ["range", 1, 10]],
+
+  ["for", "$i", ["range", 1, 10], ["print", "$i"]],
+  ["print", [":test", 1]]
+]

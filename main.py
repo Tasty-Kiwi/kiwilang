@@ -268,9 +268,9 @@ class Interpreter:
                     )
                     self._evaluate_node(body, local_vars)
             # TODO: add $ char recognition
-            case ["lambda", arguments, body]:
+            case ["lambda", arguments, *bodies]:
                 arguments = [strip_variable_sigil(arg) for arg in arguments]
-                return lambda *args: self._evaluate_node(
+                return lambda *args: tuple(self._evaluate_node(
                     body,
                     local_vars
                     | dict(
@@ -282,7 +282,10 @@ class Interpreter:
                             ),
                         )
                     ),
-                )
+                ) for body in bodies)[len(bodies) - 1] # return last body
+            case ["block", *items]:
+                for item in items:
+                    self._evaluate_node(item, local_vars)
             case ["list", *items]:
                 return tuple(self._evaluate_node(item, local_vars) for item in items)
             case ["if", condition, truthy]:
@@ -314,7 +317,7 @@ class Interpreter:
                 func = self._evaluate_node(function, local_vars)
                 if not callable(func):
                     raise Exception(f"Unable to call {function}")
-                return func(*map(self._evaluate_node, arguments))
+                return func(*map(lambda arg: self._evaluate_node(arg, local_vars), arguments))
             case _:
                 if isinstance(node, str) and (
                     node.startswith(":") or node.startswith("$")

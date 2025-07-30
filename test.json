@@ -14,5 +14,7 @@
   ["print", ["range", 1, 10]],
 
   ["for", "$i", ["range", 1, 10], ["print", "$i"]],
-  ["print", [":test", 1]]
+  
+  ["defn", ":test", ["lambda", ["$x"], ["print", "$x"]]],
+  [":test", "Hello, test function!"]
 ]

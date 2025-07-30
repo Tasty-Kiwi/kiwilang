@@ -1,3 +1,7 @@
 [
-  ["defn", ":add", ["lambda", ["$x", "$y"], ["print", ["+", "$x", "$y"]]]]
+  ["defn", ":add",["lambda", ["$x", "$y"], 
+    ["print", ["+", "$x", "$y"]],
+    ["print", "Done"]
+    ]],
+  [":add", 1, 2]
 ]

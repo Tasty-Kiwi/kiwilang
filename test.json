@@ -1,7 +1,7 @@
 [
   ["print", "Hello, World!"],
-  ["defn", ":x", 2],
-  ["print", ":x"],
+  ["defn", ":⭐", "⭐ star!"],
+  ["print", ":⭐"],
   ["defn", ":my_list", ["list", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]],
   ["print", ":my_list"],
 
@@ -13,8 +13,10 @@
 
   ["print", ["range", 1, 10]],
 
-  ["for", "$i", ["range", 1, 10], ["print", "$i"]],
+  ["for-each", "$i", ["range", 1, 10], ["print", "$i"]],
   
-  ["defn", ":test", ["lambda", ["$x"], ["print", "$x"]]],
-  [":test", "Hello, test function!"]
+  ["defn", ":named_func", ["lambda", ["$x"], ["print", "$x"]]],
+  [":named_func", "Hello, named function!"],
+
+  [["lambda", ["$x"], ["print", "$x"]], "Hello, anonymous function!"]
 ]

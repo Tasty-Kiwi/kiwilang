@@ -1,6 +1,7 @@
 import json
 import argparse
 from typing import Any
+import math
 
 parser = argparse.ArgumentParser(description="JSONLang interpreter")
 parser.add_argument("file", type=str)
@@ -43,6 +44,12 @@ def evaluate_node(node: Any, local_vars: dict[str, Any] = {}) -> Any:
             return evaluate_node(left, local_vars) % evaluate_node(right, local_vars)
         case ["=", left, right]:
             return evaluate_node(left, local_vars) == evaluate_node(right, local_vars)
+        case ["^", left, right]:
+            return evaluate_node(left, local_vars) ** evaluate_node(right, local_vars)
+        case ["fact", value]:
+            return math.factorial(evaluate_node(value, local_vars))
+        case ["sqrt", value]:
+            return math.sqrt(evaluate_node(value, local_vars))
         case ["print", value]:
             print(evaluate_node(value, local_vars))
         case ["defn", name, value] if name.startswith(":"):
@@ -51,7 +58,7 @@ def evaluate_node(node: Any, local_vars: dict[str, Any] = {}) -> Any:
             if strip_variable_sigil(name) in global_variables or strip_variable_sigil(name) in local_vars:
                 raise Exception(f"Variable {name} is already defined")
             local_vars[strip_variable_sigil(name)] = evaluate_node(value, local_vars)
-        case ["for", name, iterable, body] if name.startswith("$"):
+        case ["for-each", name, iterable, body] if name.startswith("$"):
             for item in evaluate_node(iterable, local_vars):
                 local_vars[strip_variable_sigil(name)] = item
                 evaluate_node(body, local_vars)
@@ -76,7 +83,9 @@ def evaluate_node(node: Any, local_vars: dict[str, Any] = {}) -> Any:
         case ["range", end]:
             return tuple(range(evaluate_node(end, local_vars)))
         case [function, *arguments]:
-            if global_variables.get(strip_variable_sigil(function)):
+            if isinstance(function, list):
+                return evaluate_node(function, local_vars)(*arguments)
+            elif global_variables.get(strip_variable_sigil(function)):
                 return global_variables[strip_variable_sigil(function)](*arguments)
             else:
                 raise Exception(f"Unable to call {function}")

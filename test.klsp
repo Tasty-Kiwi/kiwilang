@@ -9,13 +9,11 @@
     (print "y is 2")
     (print "y is not 2"))
 
-(block 
-    (print "Hello, World!")
-    (defn :x 2)
-    (print :x)
-    (defn :my_list (list 1 2 3 4 5 6 7 8 9 10))
-    (print :my_list)
-    (defn :y 2)
-    (if (= :y 2)
-           (print "y is 2")
-           (print "y is not 2")))
+(print (range 1 10))
+
+(for-each $i (range 1 10) (print $i))
+
+(defn :named_func (lambda ($x) (print $x)))
+(:named_func "Hello, named function!")
+
+((lambda ($x) (print $x)) "Hello, anonymous function!")

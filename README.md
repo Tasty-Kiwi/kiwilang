@@ -5,11 +5,13 @@ Currently, it uses JSON as its syntax, but it will be changed to KiwiLang's own 
 ## Usage
 
 ```bash
-python main.py test.json [-v] [-d]
+python main.py test.json [-v] [-d] [-r] [-p]
 ```
 
 - `-v` or `--verbose` - verbose output
 - `-d` or `--debug` - debug output
+- `-r` or `--repl` - run in interactive mode
+- `-p` or `--performance` - enable performance metrics
 
 ## Syntax
 
@@ -29,7 +31,7 @@ python main.py test.json [-v] [-d]
 
   ["print", ["range", 1, 10]],
 
-  ["for", "$i", ["range", 1, 10], ["print", "$i"]],
+  ["for-each", "$i", ["range", 1, 10], ["print", "$i"]],
   
   ["defn", ":test", ["lambda", ["$x"], ["print", "$x"]]],
   [":test", "Hello, test function!"]
